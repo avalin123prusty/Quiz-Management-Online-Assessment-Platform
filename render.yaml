@@ -13,7 +13,7 @@ services:
       - key: DATABASE_PATH
         value: /var/data/quizly.db
       - key: CORS_ORIGIN
-        value: https://quizly-frontend.onrender.com
+        value: '*'
     disk:
       name: quizly-data
       mountPath: /var/data
