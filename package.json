@@ -4,13 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "server": "node server/index.js",
-    "dev:full": "concurrently \"vite\" \"node server/index.js\"",
-    "build": "vite build",
+    "dev": "vite --config frontend/vite.config.js",
+    "server": "node backend/index.js",
+    "dev:full": "concurrently \"npm run dev\" \"npm run server\"",
+    "build": "vite build --config frontend/vite.config.js",
     "lint": "oxlint",
-    "test": "node --test",
-    "preview": "vite preview"
+    "test": "node --test backend/api.test.js",
+    "preview": "vite preview --config frontend/vite.config.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

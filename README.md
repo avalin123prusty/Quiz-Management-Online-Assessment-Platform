@@ -11,7 +11,7 @@ npm run dev
 
 Then open the local URL printed by Vite.
 
-Run the API separately with `npm run server`, or run both with `npm run dev:full`.
+The repository is organized into `frontend/` and `backend/`. Run the API separately with `npm run server`, or run both with `npm run dev:full`.
 
 Demo accounts: `student@quizly.local` / `Student123!` and `admin@quizly.local` / `Admin123!`.
 
