@@ -50,3 +50,44 @@ Security controls include bcrypt hashing, JWT verification, role middleware, sus
 - `/api/analytics/*` and `/api/leaderboard`: student/admin performance metrics and rankings.
 
 The remaining production work is deployment, hosted database configuration, email delivery for reset/results/certificates, and browser-level responsive/API integration tests. CSV/XLSX question import and real PDF certificate rendering are also future extensions.
+
+## Deploy on Render
+
+The included `render.yaml` creates the API and frontend services. Because this project uses SQLite, the API uses a 1 GB persistent disk at `/var/data/quizly.db`. Do not use an ephemeral filesystem for production data.
+
+1. Push the repository to GitHub.
+2. Open Render and choose **New > Blueprint**.
+3. Select `avalin123prusty/Quiz-Management-Online-Assessment-Platform` and branch `main`.
+4. Apply the blueprint from `render.yaml`.
+5. After the first deploy, open the frontend service URL and set the API URL in frontend integration code to the API service URL if API calls are added there.
+
+Manual service settings, if you do not use the blueprint:
+
+- Backend root directory: repository root
+- Backend build command: `npm ci`
+- Backend start command: `npm run server`
+- Backend health check: `/api/health`
+- Frontend build command: `npm ci && npm run build`
+- Frontend publish directory: `frontend/dist`
+- Backend variables: `NODE_ENV=production`, a long random `JWT_SECRET`, `DATABASE_PATH=/var/data/quizly.db`, and `CORS_ORIGIN=https://YOUR-FRONTEND.onrender.com`
+
+Local production check:
+
+```powershell
+npm ci
+npm test
+npm run build
+npm run server
+```
+
+In another terminal:
+
+```powershell
+Invoke-RestMethod http://localhost:4000/api/health
+```
+
+Expected response:
+
+```json
+{"status":"ok"}
+```

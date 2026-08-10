@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: quizly-api
+    runtime: node
+    buildCommand: npm ci
+    startCommand: npm run server
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_PATH
+        value: /var/data/quizly.db
+      - key: CORS_ORIGIN
+        value: https://quizly-frontend.onrender.com
+    disk:
+      name: quizly-data
+      mountPath: /var/data
+      sizeGB: 1
+
+  - type: web
+    name: quizly-frontend
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: frontend/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
