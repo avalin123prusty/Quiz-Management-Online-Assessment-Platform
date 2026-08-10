@@ -1,0 +1,6 @@
+:root { font-family: 'DM Sans', 'Segoe UI', sans-serif; color: #292b35; background: #f6f6f3; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: linear-gradient(135deg, #f8f8f5 0%, #f2f1ed 100%); }
+#root { min-height: 100vh; }
+* { box-sizing: border-box; }
+button, select { font: inherit; }
+button { cursor: pointer; }
