@@ -13,9 +13,10 @@ function App() {
   const [active, setActive] = useState('Overview')
   const [role, setRole] = useState('Student')
   const [selectedQuiz, setSelectedQuiz] = useState(null)
+  const [darkMode, setDarkMode] = useState(false)
 
   return (
-    <div className="app-shell">
+    <div className={darkMode ? 'app-shell dark-mode' : 'app-shell'}>
       <aside className="sidebar">
         <div className="brand"><span className="brand-mark">Q</span><span>quizly</span></div>
         <div className="profile"><div className="avatar">AM</div><div><strong>Alex Morgan</strong><small>{role} account</small></div><button className="icon-button" aria-label="Open profile">...</button></div>
@@ -24,7 +25,7 @@ function App() {
           {menuItems.map((label, index) => <button key={label} className={active === label ? 'nav-item active' : 'nav-item'} onClick={() => setActive(label)}><span className={`nav-icon icon-${index}`}></span>{label}{label === 'My history' && <span className="nav-count">3</span>}</button>)}
           {role === 'Admin' && <><span className="nav-label admin-label">Admin</span><button className="nav-item" onClick={() => setActive('Manage quizzes')}><span className="nav-icon icon-1"></span>Manage quizzes</button><button className="nav-item" onClick={() => setActive('Analytics')}><span className="nav-icon icon-3"></span>Analytics</button></>}
         </nav>
-        <div className="sidebar-footer"><button className="nav-item"><span className="nav-icon icon-gear"></span>Settings</button><button className="nav-item"><span className="nav-icon icon-logout"></span>Log out</button></div>
+        <div className="sidebar-footer"><button className="nav-item" onClick={() => setDarkMode(!darkMode)}><span className="nav-icon icon-gear"></span>{darkMode ? 'Light mode' : 'Dark mode'}</button><button className="nav-item"><span className="nav-icon icon-logout"></span>Log out</button></div>
       </aside>
 
       <main className="main-content">

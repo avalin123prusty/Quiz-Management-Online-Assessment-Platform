@@ -13,6 +13,20 @@ database.exec(`
   CREATE TABLE IF NOT EXISTS answers (id INTEGER PRIMARY KEY, attempt_id INTEGER NOT NULL REFERENCES attempts(id) ON DELETE CASCADE, question_id INTEGER NOT NULL REFERENCES questions(id), option_id INTEGER REFERENCES options(id));
 `)
 
+const addColumn = (table, column, definition) => {
+  const exists = database.prepare(`PRAGMA table_info(${table})`).all().some((item) => item.name === column)
+  if (!exists) database.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`)
+}
+addColumn('users', 'status', "TEXT NOT NULL DEFAULT 'active'")
+addColumn('users', 'reset_token', 'TEXT')
+addColumn('users', 'reset_expires_at', 'TEXT')
+addColumn('quizzes', 'negative_mark', 'REAL NOT NULL DEFAULT 0')
+addColumn('quizzes', 'max_attempts', 'INTEGER NOT NULL DEFAULT 0')
+addColumn('quizzes', 'available_from', 'TEXT')
+addColumn('quizzes', 'available_until', 'TEXT')
+addColumn('attempts', 'question_order', 'TEXT')
+addColumn('attempts', 'certificate_issued', 'INTEGER NOT NULL DEFAULT 0')
+
 const seed = database.transaction(() => {
   const admin = database.prepare('SELECT id FROM users WHERE email = ?').get('admin@quizly.local')
   if (!admin) database.prepare('INSERT INTO users (name,email,password_hash,role) VALUES (?,?,?,?)').run('Quizly Admin', 'admin@quizly.local', bcrypt.hashSync('Admin123!', 10), 'admin')
