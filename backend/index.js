@@ -15,6 +15,8 @@ app.use(helmet())
 app.use('/api/auth', rateLimit({ windowMs: 15 * 60 * 1000, limit: 40, standardHeaders: true, legacyHeaders: false }))
 app.use(express.json({ limit: '50kb' }))
 
+app.get('/', (_request, response) => response.json({ name: 'Quizly API', status: 'online', health: '/api/health' }))
+
 const issueToken = (user) => jwt.sign({ id: user.id, role: user.role, email: user.email }, secret, { expiresIn: '8h' })
 const auth = (request, response, next) => {
   const header = request.headers.authorization
